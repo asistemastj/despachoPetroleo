@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Area;
-use App\Envio;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

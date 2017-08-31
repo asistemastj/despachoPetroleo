@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::resource('/usuarios', 'Comun\Usuario\UsuarioController', ['only' => 'index']);
