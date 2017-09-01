@@ -20,3 +20,5 @@ Route::resource('/usuarios', 'Comun\Usuario\UsuarioController', ['only' => 'inde
 Route::resource('/periodos', 'PeriodoController', ['only' => 'index']);
 
 Route::post('/prueba', 'PeriodoController@prueba');
+Route::get('/despachoTjoselito', 'DespachoTjoselitoController@index');
+Route::get('/despachoTjc', 'DespachoTjcController@index');
