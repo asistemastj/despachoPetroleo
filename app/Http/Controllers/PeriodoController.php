@@ -20,9 +20,12 @@ class PeriodoController extends Controller
     }
 
     public function prueba(Request $request){
-        $periodos = Periodo::on($request->db)->where('codigo', 'like', '2%')->get();
-        #$periodos = Periodo::all();
-        return response()->json(['data' => $periodos]);
+        date_default_timezone_set("America/Lima");
+        $fecha=date("Y-m-d");
+        $hora=date("H:i:s");
+        $periodo=date("Ym");
+        $tcambio=date("Ymd");
+        dd($hora);
     }
 
     /**

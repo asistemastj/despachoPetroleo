@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PedidoAlmacenDetalle;
+use App\Periodo;
 use Illuminate\Http\Request;
 
 class DespachoTjcController extends Controller
@@ -14,6 +15,8 @@ class DespachoTjcController extends Controller
      */
     public function index()
     {
+        $periodo=date("Ym");
+        $query = Periodo::on('tjc')->where('codigo', '=', $periodo)->get();
         //consulta
         $despachos = PedidoAlmacenDetalle::on('tjc')
             ->join('pedidoalmacen', 'pedidoalmacen_detalle.parent_id', '=','pedidoalmacen.id')
@@ -24,6 +27,7 @@ class DespachoTjcController extends Controller
             ->where([
                 ['pedidoalmacen_detalle.producto_id',781],
                 ['pedidoalmacen.estado', '<>', 'ANULADO'],
+                ['pedidoalmacen.periodo_id', '=', $query->first()->id]
             ])->select('pedidoalmacen.fecha','indpetroleo.hora', 'pedidoalmacen.numero', 'pedidoalmacen_detalle.item', 'undtransporte.placa', 'pedidoalmacen_detalle.cantidad', 'almacen.descripcion', 'comun.tercero.codigo', 'comun.tercero.descripcion', 'indpetroleo.odometro', 'indpetroleo.hubometro', 'indpetroleo.scngalonaje', 'indpetroleo.scnkm', 'pedidoalmacen.glosa', 'pedidoalmacen.estado')
             ->orderBy('pedidoalmacen.fecha', 'desc')
             ->orderBy('pedidoalmacen.numero', 'desc')
@@ -34,11 +38,25 @@ class DespachoTjcController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for creating a new resource.
      *
-     * @param  \App\PedidoAlmacenDetalle  $pedidoAlmacenDetalle
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+        //
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+    
     public function destroy(PedidoAlmacenDetalle $pedidoAlmacenDetalle)
     {
         //

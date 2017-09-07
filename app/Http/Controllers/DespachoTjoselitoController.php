@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PedidoAlmacen;
 use App\PedidoAlmacenDetalle;
+use App\Periodo;
 use Illuminate\Http\Request;
 
 class DespachoTjoselitoController extends Controller
@@ -15,6 +16,8 @@ class DespachoTjoselitoController extends Controller
      */
     public function index()
     {
+        $periodo=date("Ym");
+        $query = Periodo::on('tjoselito')->where('codigo', '=', $periodo)->get();
         //consulta
         $despachos = PedidoAlmacenDetalle::on('tjoselito')
             ->join('pedidoalmacen', 'pedidoalmacen_detalle.parent_id', '=','pedidoalmacen.id')
@@ -25,21 +28,37 @@ class DespachoTjoselitoController extends Controller
             ->where([
                 ['pedidoalmacen_detalle.producto_id',781],
                 ['pedidoalmacen.estado', '<>', 'ANULADO'],
+                ['pedidoalmacen.periodo_id', '=', $query->first()->id]
             ])->select('pedidoalmacen.fecha','indpetroleo.hora', 'pedidoalmacen.numero', 'pedidoalmacen_detalle.item', 'undtransporte.placa', 'pedidoalmacen_detalle.cantidad', 'almacen.descripcion', 'comun.tercero.codigo', 'comun.tercero.descripcion', 'indpetroleo.odometro', 'indpetroleo.hubometro', 'indpetroleo.scngalonaje', 'indpetroleo.scnkm', 'pedidoalmacen.glosa', 'pedidoalmacen.estado')
             ->orderBy('pedidoalmacen.fecha', 'desc')
             ->orderBy('pedidoalmacen.numero', 'desc')
             ->orderBy('pedidoalmacen_detalle.item')
-            ->limit(10)
+            #->limit(3)
             ->get();
             return response()->json(['data' => $despachos]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for creating a new resource.
      *
-     * @param  \App\PedidoAlmacenDetalle  $pedidoAlmacenDetalle
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        
+    }
+
     public function destroy(PedidoAlmacenDetalle $pedidoAlmacenDetalle)
     {
         //

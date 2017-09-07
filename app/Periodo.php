@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Periodo extends Model
 {
-	#a que db apuntara
-	#protected $connection = 'tjc';
-	#indicamos a que tabla apunta
+  #a que db apuntara
+  #protected $connection = 'tjc';
+  #indicamos a que tabla apunta
   protected $table = 'periodo';
  
   protected $fillable = [
